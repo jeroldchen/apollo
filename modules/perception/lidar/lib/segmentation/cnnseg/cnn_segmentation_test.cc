@@ -66,13 +66,9 @@ void PrintObjects(const std::vector<base::ObjectPtr>& objects) {
   }
 }
 
-/*
- * TODO(perception): enable this test.
 TEST(CNNSegmentationTest, cnn_segmentation_sequence_test) {
-  char cyber_path[100] = "CYBER_PATH=";
-  putenv(cyber_path);
-  char module_path[100] = "MODULE_PATH=";
-  putenv(module_path);
+  unsetenv("CYBER_PATH");
+  unsetenv("MODULE_PATH");
   FLAGS_work_root = "/apollo/modules/perception/testdata/"
       "lidar/lib/segmentation/cnnseg/";
 
@@ -89,8 +85,7 @@ TEST(CNNSegmentationTest, cnn_segmentation_sequence_test) {
   EXPECT_TRUE(segmentation->InitClusterAndBackgroundSegmentation());
 
   std::string pcd_path =
-      "/apollo/modules/perception/testdata/lidar/lib/"
-      "segmentation/cnnseg/data/perception/modules/perception/lidar/files/";
+      "/apollo/modules/perception/testdata/lidar/app/data/perception/lidar/files/";
   std::vector<std::string> pcd_file_names;
   common::GetFileList(pcd_path, ".pcd", &pcd_file_names);
   std::string file_name;
@@ -117,10 +112,8 @@ TEST(CNNSegmentationTest, cnn_segmentation_sequence_test) {
 }
 
 TEST(CNNSegmentationTest, cnn_segmentation_test) {
-  char cyber_path[100] = "CYBER_PATH=";
-  putenv(cyber_path);
-  char module_path[100] = "MODULE_PATH=";
-  putenv(module_path);
+  unsetenv("CYBER_PATH");
+  unsetenv("MODULE_PATH");
   FLAGS_work_root = "/apollo/modules/perception/testdata/"
       "lidar/lib/segmentation/cnnseg/";
 
@@ -128,16 +121,14 @@ TEST(CNNSegmentationTest, cnn_segmentation_test) {
   base::PointFCloudPtr pc_ptr;
   pc_ptr.reset(new base::PointFCloud);
   std::string filename =
-      "/apollo/modules/perception/testdata/lidar/lib/segmentation/cnnseg/"
-      "pcd_data/3_car_1_person.pcd";
+      "/apollo/modules/perception/testdata/lidar/app/data/perception/lidar/files/0002_00.pcd";
   bool ret = LoadPCDFile(filename, pc_ptr);
   CHECK(ret) << "Failed to load " << filename;
   // load non ground indices
   base::PointIndices non_ground_indices;
   auto& indices = non_ground_indices.indices;
   std::ifstream in_file(
-      "/apollo/modules/perception/testdata/lidar/lib/segmentation/cnnseg/"
-      "pcd_data/3_car_1_person.txt");
+      "/apollo/modules/perception/testdata/lidar/app/data/perception/lidar/files/0002_00.txt");
   ASSERT_TRUE(in_file.good());
   std::string line;
   while (getline(in_file, line)) {
@@ -197,7 +188,6 @@ TEST(CNNSegmentationTest, cnn_segmentation_test) {
   objects = frame_data.segmented_objects;
   EXPECT_LE(4, objects.size());
 }
-*/
 
 }  // namespace lidar
 }  // namespace perception
