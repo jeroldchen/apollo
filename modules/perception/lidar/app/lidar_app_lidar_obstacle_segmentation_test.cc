@@ -32,11 +32,11 @@ TEST(LidarObstacleSegmentationTest, init_test) {
   unsetenv("MODULE_PATH");
   unsetenv("CYBER_PATH");
 
-  FLAGS_work_root = "/apollo/modules/perception/testdata/lidar/app";
-  FLAGS_config_manager_path = "./conf/perception/lidar";
+  FLAGS_work_root = "/apollo/modules/perception/production/conf/perception/lidar";
+//  FLAGS_config_manager_path = "./conf/perception/lidar";
   LidarObstacleSegmentationInitOptions segmentation_init_options;
   LidarObstacleSegmentation segmentation;
-  segmentation_init_options.enable_hdmap_input = false;
+//  segmentation_init_options.enable_hdmap_input = false;
   ASSERT_TRUE(segmentation.Init(segmentation_init_options));
 }
 
@@ -44,31 +44,31 @@ TEST(LidarObstacleSegmentationTest, process_test) {
   unsetenv("MODULE_PATH");
   unsetenv("CYBER_PATH");
 
-  FLAGS_work_root = "/apollo/modules/perception/testdata/lidar/app";
-  FLAGS_config_manager_path = "./conf/perception/lidar";
+  FLAGS_work_root = "/apollo/modules/perception/production/conf/perception/lidar";
+//  FLAGS_config_manager_path = "./conf/perception/lidar";
   LidarObstacleSegmentationInitOptions segmentation_init_options;
   LidarObstacleSegmentation segmentation;
-  segmentation_init_options.enable_hdmap_input = false;
+//  segmentation_init_options.enable_hdmap_input = false;
   segmentation_init_options.sensor_name = "velodyne64";
   ASSERT_TRUE(segmentation.Init(segmentation_init_options));
 
   std::string pcd_path =
       "/apollo/modules/perception/testdata/lidar/app/data/perception/lidar/files/";
-  std::string pose_path =
-      "/apollo/modules/perception/testdata/lidar/app/data/perception/lidar/poses/";
+//  std::string pose_path =
+//      "/apollo/modules/perception/testdata/lidar/app/data/perception/lidar/poses/";
   std::vector<std::string> pcd_file_names;
   common::GetFileList(pcd_path, ".pcd", &pcd_file_names);
   std::string file_name;
   std::sort(pcd_file_names.begin(), pcd_file_names.end(),
-  [](const std::string& lhs, const std::string& rhs) {
-    if (lhs.length() < rhs.length()) {
-      return true;
-    } else if (lhs.length() == rhs.length()) {
-      return lhs <= rhs;
-    } else {
-      return false;
-    }
-  });
+      [](const std::string& lhs, const std::string& rhs) {
+              if (lhs.length() < rhs.length()) {
+                return true;
+              } else if (lhs.length() == rhs.length()) {
+                return lhs <= rhs;
+              } else {
+                return false;
+              }
+            });
 
   for (size_t i = 0; i < pcd_file_names.size(); ++i) {
     int frame_id = 0;
@@ -78,9 +78,9 @@ TEST(LidarObstacleSegmentationTest, process_test) {
     frame->cloud = base::PointFCloudPool::Instance().Get();
     EXPECT_TRUE(
         LoadPCLPCD(pcd_path + "/" + file_name + ".pcd", frame->cloud.get()));
-    EXPECT_TRUE(common::ReadPoseFile(pose_path + "/" + file_name + ".pose",
-                                     &frame->lidar2world_pose, &frame_id,
-                                     &timestamp));
+//    EXPECT_TRUE(common::ReadPoseFile(pose_path + "/" + file_name + ".pose",
+//                                     &frame->lidar2world_pose, &frame_id,
+//                                     &timestamp));
     frame->timestamp = timestamp;
     LidarObstacleSegmentationOptions segmentation_options;
     EXPECT_EQ(
