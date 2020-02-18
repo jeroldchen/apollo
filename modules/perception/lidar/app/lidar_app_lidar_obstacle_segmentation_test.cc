@@ -18,9 +18,11 @@
 #include "cyber/common/file.h"
 #include "modules/perception/common/io/io_util.h"
 #include "modules/perception/common/perception_gflags.h"
+#include "modules/perception/lib/config_manager/config_manager.h"
 #include "modules/perception/lidar/app/lidar_obstacle_segmentation.h"
 #include "modules/perception/lidar/common/lidar_error_code.h"
 #include "modules/perception/lidar/common/pcl_util.h"
+#include "modules/perception/lidar/lib/scene_manager/scene_manager.h"
 
 namespace apollo {
 namespace perception {
@@ -31,25 +33,29 @@ using cyber::common::GetFileName;
 TEST(LidarObstacleSegmentationTest, init_test) {
   unsetenv("MODULE_PATH");
   unsetenv("CYBER_PATH");
-
-  FLAGS_work_root = "/apollo/modules/perception/production/conf/perception/lidar";
+  FLAGS_work_root = "/apollo/modules/perception/production";
 //  FLAGS_config_manager_path = "./conf/perception/lidar";
+
+  lib::ConfigManager::Instance()->Reset();
+  SceneManager::Instance().Reset();
   LidarObstacleSegmentationInitOptions segmentation_init_options;
   LidarObstacleSegmentation segmentation;
-//  segmentation_init_options.enable_hdmap_input = false;
+  segmentation_init_options.enable_hdmap_input = false;
   ASSERT_TRUE(segmentation.Init(segmentation_init_options));
 }
 
 TEST(LidarObstacleSegmentationTest, process_test) {
   unsetenv("MODULE_PATH");
   unsetenv("CYBER_PATH");
-
-  FLAGS_work_root = "/apollo/modules/perception/production/conf/perception/lidar";
+  FLAGS_work_root = "/apollo/modules/perception/production";
 //  FLAGS_config_manager_path = "./conf/perception/lidar";
+
+  lib::ConfigManager::Instance()->Reset();
+  SceneManager::Instance().Reset();
   LidarObstacleSegmentationInitOptions segmentation_init_options;
   LidarObstacleSegmentation segmentation;
-//  segmentation_init_options.enable_hdmap_input = false;
-  segmentation_init_options.sensor_name = "velodyne64";
+  segmentation_init_options.enable_hdmap_input = false;
+  segmentation_init_options.sensor_name = "velodyne16";
   ASSERT_TRUE(segmentation.Init(segmentation_init_options));
 
   std::string pcd_path =
@@ -71,7 +77,7 @@ TEST(LidarObstacleSegmentationTest, process_test) {
             });
 
   for (size_t i = 0; i < pcd_file_names.size(); ++i) {
-    int frame_id = 0;
+//    int frame_id = 0;
     double timestamp = 0.0;
     file_name = GetFileName(pcd_file_names[i]);
     std::shared_ptr<LidarFrame> frame(new LidarFrame);
