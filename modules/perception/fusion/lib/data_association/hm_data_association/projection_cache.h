@@ -19,12 +19,12 @@
 #include <string>
 #include <vector>
 
-#include "Eigen/StdVector"
+//#include "Eigen/StdVector"
 
 #include "modules/common/math/math_utils.h"
 #include "modules/perception/fusion/base/sensor_object.h"
 
-EIGEN_DEFINE_STL_VECTOR_SPECIALIZATION(Eigen::Vector2d);
+//EIGEN_DEFINE_STL_VECTOR_SPECIALIZATION(Eigen::Vector2d);
 
 namespace apollo {
 namespace perception {

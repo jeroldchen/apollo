@@ -63,10 +63,11 @@ cc_library(
         "//modules/perception/base",
         "//modules/perception/inference:inference_lib",
         "//modules/perception/inference/tensorrt/plugins:perception_inference_tensorrt_plugins",
-        "@caffe",
+#        "@caffe",
         "@com_google_protobuf//:protobuf",
         "@local_config_tensorrt//:tensorrt",
-        "@opencv",
+#        "@opencv",
+        "@opencv//:imgcodecs",
     ],
 )
 
@@ -92,11 +93,12 @@ cc_library(
     deps = [
         ":batch_stream",
         ":rt_utils",
-        "@caffe",
+#        "@caffe",
         "@com_google_protobuf//:protobuf",
         "@local_config_cuda//cuda:cudart",
         "@local_config_tensorrt//:tensorrt",
-        "@opencv",
+#        "@opencv",
+        "@opencv//:imgcodecs",
     ],
 )
 
@@ -121,10 +123,11 @@ cc_library(
     deps = [
         "//cyber",
         "//modules/perception/proto:rt_cc_proto",
-        "@caffe",
+#        "@caffe",
         "@com_google_absl//absl/strings",
         "@com_google_protobuf//:protobuf",
-        "@opencv",
+#        "@opencv",
+        "@opencv//:imgcodecs",
     ],
 )
 

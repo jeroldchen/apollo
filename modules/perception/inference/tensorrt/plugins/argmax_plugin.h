@@ -26,6 +26,7 @@ namespace inference {
 class ArgMax1Plugin : public nvinfer1::IPlugin {
  public:
   ArgMax1Plugin(const ArgMaxParameter &argmax_param, nvinfer1::Dims in_dims) {
+    float_min_ = std::numeric_limits<float>::min();
     input_dims_.nbDims = in_dims.nbDims;
     CHECK_GT(input_dims_.nbDims, 0);
     for (int i = 0; i < in_dims.nbDims; i++) {
@@ -35,7 +36,8 @@ class ArgMax1Plugin : public nvinfer1::IPlugin {
     axis_ = argmax_param.axis();
     out_max_val_ = argmax_param.out_max_val();
     top_k_ = argmax_param.top_k();
-    CHECK_GE(top_k_, 1) << "top k must not be less than 1.";
+//    CHECK_GE(top_k_, 1) << "top k must not be less than 1.";
+    CHECK_GE(static_cast<int>(top_k_), 1) << "top k must not be less than 1.";
     output_dims_ = input_dims_;
     output_dims_.d[0] = 1;
     if (out_max_val_) {
@@ -93,6 +95,7 @@ class ArgMax1Plugin : public nvinfer1::IPlugin {
   bool out_max_val_;
   size_t top_k_;
   int axis_;
+  float float_min_;
   nvinfer1::Dims input_dims_;
   nvinfer1::Dims output_dims_;
 };
