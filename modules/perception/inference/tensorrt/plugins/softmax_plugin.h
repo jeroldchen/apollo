@@ -31,7 +31,8 @@ class SoftmaxPlugin : public nvinfer1::IPlugin {
       input_dims_.type[i] = in_dims.type[i];
     }
     axis_ = param.axis() - 1;
-    CHECK_GT(axis_, 0);
+    // TODO(cjh): why axis > 0?
+//    CHECK_GT(axis_, 0);
     CHECK_LE(axis_ + 1, input_dims_.nbDims);
 
     inner_num_ = 1;
